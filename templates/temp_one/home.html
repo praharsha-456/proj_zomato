@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{%load static%}
+{%block head_tags%}
+<title>Welcome to Beta Eats | Sign In or Sign Up</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+{%block css%}
+  <link rel="stylesheet" href="{% static 'input.css' %}">
+  <script src="{% static 'input.js' %}"></script> 
+{%endblock%}
+{%endblock%}
+{%block content%}
+<div class="container" id="container">
+	<div class="form-container sign-in-container">
+		<form action="{% url 'home' %}" method="POST">
+      {% csrf_token %}
+	  {% if message_zip %}
+	  {% for i,j in message_zip %}
+	  <div class="{{i}}-msg">
+		<i class="fa fa-check"></i>
+		{{j}}
+	  </div>
+	  {% endfor %}
+	  {% endif %}
+			<h1>Sign in</h1><br>
+			<table>
+				<tbody>
+					<tr>
+						<td>
+							User Type:
+						</td>
+						<td>
+							<input type="radio" onclick="swapConfig(this)" id="customer" name="usr_typ" value="Customer" checked="checked">
+							<label for="customer">Customer</label>
+						</td>
+						<td>
+							<input type="radio" onclick="swapConfig(this)" id="restaurant" name="usr_typ" value="Restaurant">
+							<label for="restaurant">Restaurant</label>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<div id="customerForm">
+				<input type="email" name="email" placeholder="Customer Email"  />
+				<input type="password" name="psw" placeholder="Password"  />
+			</div>
+			<div id="restaurantForm" style="display: none;">
+				
+				<input type="email" name="email1" placeholder="Restaurant Email"  />
+				<input type="password" name="psw1" placeholder="Password"  />
+				
+			</div>
+			<button>Sign In</button>
+		</form>
+	</div>
+	<div class="overlay-container">
+		<div class="overlay">
+			<div class="overlay-panel overlay-right">
+				<h1>Hello!</h1>
+				<p>Please sign up if you haven't registered yet</p>
+				<a href="{% url 'sign-up' %}" class="ghost">Sign Up</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+<footer>
+	<p>
+		Created with <i class="fa fa-heart"></i> by
+		<a target="_blank" href="https://florin-pop.com">Florin Pop</a>
+		- Read how I created this and how you can join the challenge
+		<a target="_blank" href="https://www.florin-pop.com/blog/2019/03/double-slider-sign-in-up-form/">here</a>.
+	</p>
+</footer>
+  
+{%endblock%}
