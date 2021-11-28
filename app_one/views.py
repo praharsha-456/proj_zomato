@@ -82,7 +82,8 @@ def home(request):
                     except:
                         return render(request,'temp_three/rest_acc.html',{'rest_name':rest_name})
                 except:
-                    return render(request,'temp_one/home.html')
+                    message_zip=zip(['warning'],['Login Error. Please sign up if you haven\'t registered'])
+                    return render(request,'temp_one/home.html',{'message_zip':message_zip})
         except:
             return render(request,'temp_one/home.html')
     else:
@@ -163,6 +164,7 @@ def RestaurantView(request):
         dish_list=[]
         price_list=[]
         for i in x:
+            print(i.rest_available)
             if rest in i.rest_available:
                 dish=i.dish_name
                 price=i.dish_price
