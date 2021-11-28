@@ -14,6 +14,13 @@ from pathlib import Path
 import os
 from django.core.servers.basehttp import WSGIServer
 WSGIServer.handle_error = lambda *args, **kwargs: None
+import socket
+import psycopg2
+import dj_database_url
+host_name = socket.gethostname()
+host_ip = socket.gethostbyname(host_name)
+print("Hostname :  ",host_name)
+print("IP : ",host_ip)
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -77,13 +84,17 @@ WSGI_APPLICATION = 'proj_zomato.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+if 'DESKTOP' or 'LAPTOP' in host_name:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
-}
+else:
+    DATABASES = {
+        'default' : dj_database_url.config(conn_max_age=600, ssl_require=True)
+    }
 
 
 # Password validation
